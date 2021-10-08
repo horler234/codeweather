@@ -12,12 +12,5 @@ export const handleAuthErrors = (err: any) => {
     return errors;
   }
 
-  // validation errors
-  if (err._message.includes("user validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
-  }
-
   return errors;
 };

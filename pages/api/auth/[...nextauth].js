@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import connectDB from "../../../middleware/mongodb";
-import User from "../../../models/User";
 import bcrypt from "bcrypt";
 import { connectToDatabase } from "../../../lib/db";
 
@@ -13,12 +12,11 @@ export default connectDB(
     providers: [
       Providers.Credentials({
         id: "credentials",
-        async authorize(credentials: any) {
+        async authorize(credentials) {
           const client = await connectToDatabase();
 
-          // const user: any = User.findOne({ email: credentials.email });
-          const user: any = await client
-            .db()
+          // const user = User.findOne({ email: credentials.email });
+          const user = await client.db
             .collection("users")
             .findOne({ email: credentials.email });
 

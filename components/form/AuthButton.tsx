@@ -8,4 +8,5 @@ export const AuthButton = styled.button`
   cursor: pointer;
   border: transparent;
   font-family: inherit;
+  margin-top: 20px;
 `;

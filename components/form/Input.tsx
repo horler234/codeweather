@@ -7,7 +7,7 @@ const InputWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  margin-bottom: 20px;
+  margin-top: 20px;
   input {
     width: 100%;
     border: 2px solid #28292f;
