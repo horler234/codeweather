@@ -1,12 +1,6 @@
-import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import styled from "styled-components";
 import Link from "next/link";
-import GooglePlacesAutocomplete, {
-  geocodeByPlaceId,
-} from "react-google-places-autocomplete";
+import { geocodeByPlaceId } from "react-google-places-autocomplete";
 import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { AddressAutocomplete } from "../components/AddressAutocomplete";

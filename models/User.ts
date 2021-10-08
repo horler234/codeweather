@@ -2,6 +2,26 @@ import { Schema, model } from "mongoose";
 import { UserMongoose } from "../types/UserMongoose";
 import isEmail from "validator/lib/isEmail";
 import bcrypt from "bcrypt";
+import { SearchMongoose } from "../types/SearchMongoose";
+
+/**
+ * searchSchema is the schema for the user's search history
+ */
+
+const searchSchema = new Schema<SearchMongoose>({
+  long: {
+    type: Number,
+    required: [true, "Long coords not added."],
+  },
+  lat: {
+    type: Number,
+    required: [true, "Long coords not added."],
+  },
+  city: {
+    type: String,
+    required: [true, "City not added."],
+  },
+});
 
 export const userSchema = new Schema<UserMongoose>({
   name: {
@@ -21,6 +41,7 @@ export const userSchema = new Schema<UserMongoose>({
     required: [true, "Please enter a valid password"],
     minLength: [6, "Minimum password length must be 6 characters"],
   },
+  searches: { type: [searchSchema], required: false },
   date_added: {
     type: Date,
     default: Date.now,
