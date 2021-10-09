@@ -15,15 +15,12 @@ export default connectDB(
         async authorize(credentials) {
           const client = await connectToDatabase();
 
-          // const user = User.findOne({ email: credentials.email });
           const user = await client.db
             .collection("users")
             .findOne({ email: credentials.email });
 
-          console.log(user);
-
           if (!user) {
-            client.close();
+            // client.close();
             throw Error("This email is not registered.");
           }
           const auth = await bcrypt.compare(
@@ -31,14 +28,12 @@ export default connectDB(
             user.password
           );
           if (!auth) {
-            client.close();
+            // client.close();
             throw Error("Incorrect password");
           }
 
-          client.close();
-          // return { email: user.email, name: user.name };
-
-          return credentials;
+          // client.close();
+          return { email: user.email, name: user.name };
         },
       }),
     ],

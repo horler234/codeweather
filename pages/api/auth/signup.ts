@@ -26,7 +26,7 @@ const signUpAPIRoute = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(400).json({ error: errors.REQUEST_BODY_INVALID });
       return;
     }
-    const { email, password, name, date_created, search } = body;
+    const { email, password, name, search } = body;
 
     // const user = new User({ name, email, password });
 
@@ -47,7 +47,7 @@ const signUpAPIRoute = async (req: NextApiRequest, res: NextApiResponse) => {
       email,
       password: pass,
       name,
-      date_created,
+      date_created: new Date(),
       search,
     });
     res.status(201).json({ _id: user.insertedId });

@@ -1,5 +1,7 @@
+import { signin } from "next-auth/client";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { AuthButton } from "../components/form/AuthButton";
 import { AuthText } from "../components/form/AuthText";
@@ -21,6 +23,9 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // next router
+  const router = useRouter();
+
   // SUBMIT EVENT
   const handleSignIn = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -34,40 +39,26 @@ export default function SignIn() {
     if (!isValid) {
       if (error?.email) {
         setEmailError(error.email);
+        setEmail("");
       }
       if (error?.password) {
         setPasswordError(error.password);
+        setPassword("");
       }
     } else {
       console.log({ email, password });
     }
 
     try {
-      const signInInfo: PostSignIn = {
+      await signin("credentials", {
+        redirect: false,
         email,
         password,
-      };
-
-      //   const response = await fetch("/api/report-listing-error", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(errorInfo),
-      //   });
-      //   const json = await response.json();
-
-      //   if (!json || json.error || !json.data || !json.data.wasSuccessful) {
-      //     console.error("Fetch request to report-listing-error failed");
-      //   } else {
-      //     console.log("success");
-      //   }
+      });
+      router.push("/");
     } catch (err) {
-      console.error("error logging in", err);
+      console.error("error logging in up", err);
     }
-
-    setEmail("");
-    setPassword("");
   };
   return (
     <PageWrapper>

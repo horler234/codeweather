@@ -1,5 +1,7 @@
+import { getSession, signIn, useSession } from "next-auth/client";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { AuthButton } from "../components/form/AuthButton";
 import { AuthText } from "../components/form/AuthText";
@@ -23,6 +25,11 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
+  // user session
+  const [session, loading] = useSession();
+
+  // nextjs router
+  const router = useRouter();
   // SUBMIT EVENT
   const handleSignUp = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -37,12 +44,15 @@ export default function SignUp() {
     if (!isValid) {
       if (error?.email) {
         setEmailError(error.email);
+        setEmail("");
       }
       if (error?.userName) {
         setNameError(error.userName);
+        setName("");
       }
       if (error?.password) {
         setPasswordError(error.password);
+        setPassword("");
       }
     } else {
       try {
@@ -50,7 +60,6 @@ export default function SignUp() {
           email,
           name,
           password,
-          date_created: new Date(),
           search: [],
         };
 
@@ -65,18 +74,23 @@ export default function SignUp() {
 
         if (!json || json.error) {
           console.error("Fetch request to sign up failed", json);
-          if (json.error.email) setEmailError(json.error.email);
+          if (json.error.email) {
+            setEmailError(json.error.email);
+            setEmail("");
+          }
         } else {
           console.log("success", json);
+          await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+          });
+          router.push("/");
         }
       } catch (err) {
-        console.error("error logging in", err);
+        console.error("error signing up", err);
       }
     }
-
-    setEmail("");
-    setName("");
-    setPassword("");
   };
   return (
     <PageWrapper>
@@ -89,7 +103,10 @@ export default function SignUp() {
             id="sign_up_email"
             label="email"
             onClick={() => emailError && setEmailError(null)}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              emailError && setEmailError(null);
+            }}
             value={email}
           />
           {emailError && <ErrorText>{emailError}</ErrorText>}
@@ -99,7 +116,10 @@ export default function SignUp() {
             id="sign_up_username"
             label="username"
             onClick={() => nameError && setNameError(null)}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              nameError && setNameError(null);
+            }}
             value={name}
           />
           {nameError && <ErrorText>{nameError}</ErrorText>}
@@ -109,7 +129,10 @@ export default function SignUp() {
             id="sign_up_password"
             label="password"
             onClick={() => passwordError && setPasswordError(null)}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              passwordError && setPasswordError(null);
+            }}
             isPassword
             value={password}
           />

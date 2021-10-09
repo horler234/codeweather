@@ -44,12 +44,22 @@ export const PreviousSearches = styled.ul`
   list-style: none;
   border-bottom: 1px solid #8f9094;
   margin-bottom: 20px;
+  height: 260px;
   li {
     margin-bottom: 20px;
-    a {
+    font-size: 14px;
+    color: #fff;
+    button {
       font-size: 14px;
       color: #8f9094;
       text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      &:hover {
+        color: green;
+      }
     }
   }
 
@@ -61,23 +71,34 @@ export const PreviousSearches = styled.ul`
 export const WeatherTitle = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 40px;
   padding-left: 20px;
   h1 {
     font-family: 700;
     color: #fff;
-    font-size: 60px;
+    font-size: 30px;
   }
 
   @media (min-width: 768px) {
-    padding-bottom: 100px;
-
+    padding-left: 0;
     h1 {
       font-size: 80px;
     }
   }
 `;
 
+export const UserNameText = styled.h4`
+  color: #fff;
+  padding-bottom: 40px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  font-size: 14px;
+
+  @media (min-width: 768px) {
+    padding-left: 0;
+    padding-bottom: 100px;
+    font-size: 16px;
+  }
+`;
 export const TitleSection = styled.section`
   display: flex;
   flex-direction: column;
@@ -96,7 +117,7 @@ export const LocationWrapper = styled.div`
   color: #fff;
   margin-left: 5px;
   h2 {
-    font-size: 36px;
+    font-size: 20px;
   }
 
   p {
