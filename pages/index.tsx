@@ -20,11 +20,16 @@ import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { SearchMongoose } from "../types/SearchMongoose";
 import { getCityName } from "../util/apiHelpers/getCityName";
-import { formatDateLong } from "../util/apiHelpers/formatDate";
+import { formatDateLong, formatDateShort } from "../util/apiHelpers/formatDate";
 import { getWeatherData } from "../util/apiHelpers/getWeatherData";
+import { getPreviousDates } from "../util/apiHelpers/getPreviousDates";
+import {
+  getCityImage,
+  getLandScapeImage,
+} from "../util/apiHelpers/getCityImage";
 
 const data = {
-  labels: ["1", "2", "3", "4", "5"],
+  labels: formatDateShort(),
   datasets: [
     {
       label: "Temperature",
@@ -42,7 +47,10 @@ export default function Home() {
   const [searchHistory, setSearchHistory] = useState<SearchMongoose[] | null>(
     null
   );
-  const [cityName, setCityName] = useState("Manchester");
+  const [cityName, setCityName] = useState("Lagos");
+  const [cityImage, setCityImage] = useState(
+    "https://images.unsplash.com/photo-1618828665011-0abd973f7bb8?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNjY0ODN8MHwxfHNlYXJjaHwyfHxsYWdvc3xlbnwwfHx8fDE2MzM4NTY5MDk&ixlib=rb-1.2.1&q=85"
+  );
   const [timeStamp, setTimeStamp] = useState(formatDateLong(new Date()));
 
   const [temp, setTemp] = useState<any>(null);
@@ -61,17 +69,6 @@ export default function Home() {
     setCityName(getCityName(test));
     setTimeStamp(formatDateLong(new Date()));
   };
-  if (session) {
-    fetch(`/api/user/search/${session.user?.email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((his) => setSearchHistory(his))
-      .catch((err) => console.error(err));
-  }
 
   const testFunction = () => {
     // const bodyTest =
@@ -98,11 +95,25 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (session) {
+      fetch(`/api/user/search/${session.user?.email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((his) => setSearchHistory(his))
+        .catch((err) => console.error(err));
+    }
     getWeatherData(cityName).then((res) => updateWeatherValues(res));
+    // getCityImage(cityName).then((res) =>
+    //   console.log(setCityImage(getLandScapeImage(res.data)[0].urls.full))
+    // );
   }, [cityName]);
 
   return (
-    <PageWrapper>
+    <PageWrapper imgSrc={cityImage}>
       <TitleSection>
         <TopWrapper>
           <LogoLink>
