@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// getWeatherData returns a promise of the weather data from openweathermap
+
 export const getWeatherData = (city: string) => {
   const data = axios
     .get(

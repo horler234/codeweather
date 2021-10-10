@@ -20,7 +20,6 @@ export default connectDB(
             .findOne({ email: credentials.email });
 
           if (!user) {
-            // client.close();
             throw Error("This email is not registered.");
           }
           const auth = await bcrypt.compare(
@@ -28,22 +27,14 @@ export default connectDB(
             user.password
           );
           if (!auth) {
-            // client.close();
             throw Error("Incorrect password");
           }
 
-          // client.close();
           return { email: user.email, name: user.name };
         },
       }),
     ],
 
     database: process.env.MONGODB_URI,
-    // callbacks: {
-    //   session: async (session, user) => {
-    //     session.id = user.id;
-    //     return Promise.resolve(session);
-    //   },
-    // },
   })
 );

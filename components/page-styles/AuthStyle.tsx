@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+/**
+ * Styles for the authentication pages i.e. sign in and sign up page
+ */
+
 export const PageWrapper = styled.main`
   width: 100vw;
   height: 100vh;

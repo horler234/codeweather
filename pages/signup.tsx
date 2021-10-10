@@ -72,14 +72,13 @@ export default function SignUp() {
         });
         const json = await response.json();
 
-        if (!json || json.error) {
+        if (!json || json.error || json.errors) {
           console.error("Fetch request to sign up failed", json);
           if (json.error.email) {
             setEmailError(json.error.email);
             setEmail("");
           }
         } else {
-          console.log("success", json);
           await signIn("credentials", {
             redirect: false,
             email,
@@ -93,60 +92,80 @@ export default function SignUp() {
     }
   };
   return (
-    <PageWrapper>
-      <FormContainer>
-        <h1>code.weather</h1>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="og:description"
+          content="Code Weather is web application for displaying the weather data of a particular city."
+        />
+        <meta name="og:image" content="/images/placeholder.jpeg" />
+        <meta property="og:site_name" content="Code Weather" />
+        {/* twitter card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sign Up | Code Weather" />
+        <meta
+          name="twitter:description"
+          content="Code Weather is web application for displaying the weather data of a particular city."
+        />
+        <meta name="twitter:image" content="/images/placeholder.jpeg" />
+        <title>Sign Up | Code Weather</title>
+      </Head>
+      <PageWrapper>
+        <FormContainer>
+          <h1>code.weather</h1>
 
-        <form onSubmit={handleSignUp}>
-          <Input
-            placeholder="email"
-            id="sign_up_email"
-            label="email"
-            onClick={() => emailError && setEmailError(null)}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              emailError && setEmailError(null);
-            }}
-            value={email}
-          />
-          {emailError && <ErrorText>{emailError}</ErrorText>}
+          <form onSubmit={handleSignUp}>
+            <Input
+              placeholder="email"
+              id="sign_up_email"
+              label="email"
+              onClick={() => emailError && setEmailError(null)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                emailError && setEmailError(null);
+              }}
+              value={email}
+            />
+            {emailError && <ErrorText>{emailError}</ErrorText>}
 
-          <Input
-            placeholder="username"
-            id="sign_up_username"
-            label="username"
-            onClick={() => nameError && setNameError(null)}
-            onChange={(e) => {
-              setName(e.target.value);
-              nameError && setNameError(null);
-            }}
-            value={name}
-          />
-          {nameError && <ErrorText>{nameError}</ErrorText>}
+            <Input
+              placeholder="username"
+              id="sign_up_username"
+              label="username"
+              onClick={() => nameError && setNameError(null)}
+              onChange={(e) => {
+                setName(e.target.value);
+                nameError && setNameError(null);
+              }}
+              value={name}
+            />
+            {nameError && <ErrorText>{nameError}</ErrorText>}
 
-          <Input
-            placeholder="password"
-            id="sign_up_password"
-            label="password"
-            onClick={() => passwordError && setPasswordError(null)}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              passwordError && setPasswordError(null);
-            }}
-            isPassword
-            value={password}
-          />
-          {passwordError && <ErrorText>{passwordError}</ErrorText>}
+            <Input
+              placeholder="password"
+              id="sign_up_password"
+              label="password"
+              onClick={() => passwordError && setPasswordError(null)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                passwordError && setPasswordError(null);
+              }}
+              isPassword
+              value={password}
+            />
+            {passwordError && <ErrorText>{passwordError}</ErrorText>}
 
-          <AuthButton>sign up</AuthButton>
-        </form>
-        <AuthText>
-          been here for a while?{" "}
-          <Link href="/signin">
-            <a>signin</a>
-          </Link>
-        </AuthText>
-      </FormContainer>
-    </PageWrapper>
+            <AuthButton>sign up</AuthButton>
+          </form>
+          <AuthText>
+            been here for a while?{" "}
+            <Link href="/signin">
+              <a>signin</a>
+            </Link>
+          </AuthText>
+        </FormContainer>
+      </PageWrapper>
+    </>
   );
 }

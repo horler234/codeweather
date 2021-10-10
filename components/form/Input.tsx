@@ -27,6 +27,9 @@ const InputWrapper = styled.div`
  * @param text input value
  * @param id id of the input and also the "for" attribute of the label
  * @param onChange function fired when a user types in the input field
+ * @param onClick function fired when a user clicks on the input field
+ * @param value value of the input field
+ * @param isPassword checks if input type is password to hide the text
  */
 
 interface InputProps {

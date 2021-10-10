@@ -4,7 +4,6 @@ import connectDB from "../../../../middleware/mongodb";
 import { HttpMethod } from "../../../../types/HttpMethod";
 import { handleAuthErrors } from "../../../../util/apiHelpers/handleAuthErrors";
 import { connectToDatabase } from "../../../../lib/db";
-import { SearchMongoose } from "../../../../types/SearchMongoose";
 
 const getUserSearchAPIRoute = async (
   req: NextApiRequest,
@@ -12,8 +11,8 @@ const getUserSearchAPIRoute = async (
 ) => {
   const method = req.method as HttpMethod;
 
-  if (method !== "GET") {
-    res.setHeader("Allow", ["GET"]);
+  if (method !== "GET" && method !== "POST") {
+    res.setHeader("Allow", ["GET", "POST"]);
     res.status(405).json({
       error: errors.REQUEST_METHOD_INVALID,
     });
@@ -29,22 +28,42 @@ const getUserSearchAPIRoute = async (
   }
 
   // get user search history
+  if (method === "GET") {
+    try {
+      const user = await db.collection("users").findOne({ email });
 
-  try {
-    const user = await db.collection("users").findOne({ email });
+      if (!user) {
+        res.status(422).json({
+          error: { email: "User is not registered." },
+        });
+        return;
+      }
 
-    if (!user) {
-      res.status(422).json({
-        error: { email: "User is not registered." },
-      });
+      res.status(201).json({ search: user.search });
+    } catch (err) {
+      const errors = handleAuthErrors(err);
+      res.status(400).json({ errors });
+      console.error(errors);
+    }
+  }
+
+  // update user search history
+  if (method === "POST") {
+    try {
+      const search: string = req.body;
+
+      if (!search) {
+        res.status(400).json({ error: errors.REQUEST_BODY_INVALID });
+        return;
+      }
+      db.collection("users").update({ email }, { $push: { search } });
+      const user = await db.collection("users").findOne({ email });
+      res.status(200).json({ search: user.search });
+    } catch (err) {
+      console.error("Error parsing body");
+      res.status(400).json({ error: errors.REQUEST_BODY_INVALID });
       return;
     }
-
-    res.status(201).json({ search: user.search });
-  } catch (err) {
-    const errors = handleAuthErrors(err);
-    res.status(400).json({ errors });
-    console.error(errors);
   }
 };
 

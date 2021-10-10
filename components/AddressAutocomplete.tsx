@@ -3,6 +3,10 @@ import GooglePlacesAutocomplete, {
 } from "react-google-places-autocomplete";
 import { Dispatch, SetStateAction } from "react";
 
+/**
+ * AddressAutocomplete renders the autocomplete input powered by google map API
+ */
+
 type AddressAutocompleteProps = { onChange: Dispatch<SetStateAction<null>> };
 
 export const AddressAutocomplete = ({ onChange }: AddressAutocompleteProps) => (

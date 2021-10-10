@@ -60,21 +60,17 @@ export default class MyDocument extends Document<any> {
             rel="stylesheet"
           />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-          {/* <link
-              rel="shortcut icon"
-              href="/images/icon.png"
-              type="image/x-icon"
-            />
-            <meta
-              property="og:description"
-              content="Frontend Developer"
-            ></meta>
-            <meta property="og:image" content="/public/images/code.png"></meta>
-            <meta
-              property="og:url"
-              content="https://codelord.vercel.app"
-            ></meta>
-            <meta name="theme-color" content="#0F0D0D"/> */}
+          <link
+            rel="shortcut icon"
+            href="/images/rain.png"
+            type="image/x-icon"
+          />
+          <meta property="og:description" content="Weather App"></meta>
+          <meta
+            property="og:image"
+            content="/public/images/placeholder.jpeg"
+          ></meta>
+          <meta name="theme-color" content="#0F0D0D" />
           <script
             type="text/javascript"
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_KEY}&libraries=places`}

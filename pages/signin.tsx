@@ -45,57 +45,74 @@ export default function SignIn() {
         setPasswordError(error.password);
         setPassword("");
       }
-    } else {
-      console.log({ email, password });
-    }
-
-    try {
-      await signin("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-      router.push("/");
-    } catch (err) {
-      console.error("error logging in up", err);
-    }
+    } else
+      try {
+        await signin("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+        router.push("/");
+      } catch (err) {
+        console.error("error logging in", err);
+      }
   };
   return (
-    <PageWrapper>
-      <FormContainer>
-        <h1>code.weather</h1>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="og:description"
+          content="Code Weather is web application for displaying the weather data of a particular city."
+        />
+        <meta name="og:image" content="/images/placeholder.jpeg" />
+        <meta property="og:site_name" content="Code Weather" />
+        {/* twitter card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sign In | Code Weather" />
+        <meta
+          name="twitter:description"
+          content="Code Weather is web application for displaying the weather data of a particular city."
+        />
+        <meta name="twitter:image" content="/images/placeholder.jpeg" />
+        <title>Sign In | Code Weather</title>
+      </Head>
+      <PageWrapper>
+        <FormContainer>
+          <h1>code.weather</h1>
 
-        <form onSubmit={handleSignIn}>
-          <Input
-            placeholder="email"
-            id="sign_in_email"
-            label="email"
-            onClick={() => emailError && setEmailError(null)}
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          {emailError && <ErrorText>{emailError}</ErrorText>}
+          <form onSubmit={handleSignIn}>
+            <Input
+              placeholder="email"
+              id="sign_in_email"
+              label="email"
+              onClick={() => emailError && setEmailError(null)}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            {emailError && <ErrorText>{emailError}</ErrorText>}
 
-          <Input
-            placeholder="password"
-            id="sign_in_password"
-            label="password"
-            onClick={() => passwordError && setPasswordError(null)}
-            onChange={(e) => setPassword(e.target.value)}
-            isPassword
-            value={password}
-          />
-          {passwordError && <ErrorText>{passwordError}</ErrorText>}
+            <Input
+              placeholder="password"
+              id="sign_in_password"
+              label="password"
+              onClick={() => passwordError && setPasswordError(null)}
+              onChange={(e) => setPassword(e.target.value)}
+              isPassword
+              value={password}
+            />
+            {passwordError && <ErrorText>{passwordError}</ErrorText>}
 
-          <AuthButton>login</AuthButton>
-        </form>
-        <AuthText>
-          alien to this?{" "}
-          <Link href="/signup">
-            <a>signup</a>
-          </Link>
-        </AuthText>
-      </FormContainer>
-    </PageWrapper>
+            <AuthButton>login</AuthButton>
+          </form>
+          <AuthText>
+            alien to this?{" "}
+            <Link href="/signup">
+              <a>signup</a>
+            </Link>
+          </AuthText>
+        </FormContainer>
+      </PageWrapper>
+    </>
   );
 }

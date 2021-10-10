@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+/**
+ * styles for the home page
+ * @param imgSrc the background image rendered on the home page (to depend on city value)
+ */
+
 export const PageWrapper = styled.main<{ imgSrc?: string }>`
   background: linear-gradient(0deg, rgba(7, 6, 7, 0.4), rgba(7, 6, 7, 0.4)),
     url(${(props) => props.imgSrc || "/images/placeholder.jpeg"});

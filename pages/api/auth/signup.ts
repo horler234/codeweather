@@ -27,10 +27,6 @@ const signUpAPIRoute = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
     const { email, password, name, search } = body;
-
-    // const user = new User({ name, email, password });
-
-    // user.save();
     const existingUser = await db.collection("users").findOne({ email: email });
 
     if (existingUser) {
