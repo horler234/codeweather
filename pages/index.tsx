@@ -115,9 +115,9 @@ export default function Home() {
         .catch((err) => console.error(err));
     }
     getWeatherData(cityName).then((res) => updateWeatherValues(res));
-    getCityImage(cityName).then((res) =>
-      console.log(setCityImage(getLandScapeImage(res.data)[0].urls.full))
-    );
+    getCityImage(cityName).then((res) => {
+      setCityImage(getLandScapeImage(res.data)[0]?.urls.regular);
+    });
   }, [cityName]);
 
   return (
@@ -140,7 +140,12 @@ export default function Home() {
         <meta name="twitter:image" content="/images/placeholder.jpeg" />
         <title>Home | Code Weather</title>
       </Head>
-      <PageWrapper imgSrc={cityImage}>
+      <PageWrapper
+        imgSrc={
+          cityImage ??
+          "https://images.unsplash.com/photo-1618828665011-0abd973f7bb8?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNjY0ODN8MHwxfHNlYXJjaHwyfHxsYWdvc3xlbnwwfHx8fDE2MzM4NTY5MDk&ixlib=rb-1.2.1&q=85"
+        }
+      >
         <TitleSection>
           <TopWrapper>
             <LogoLink>
@@ -196,7 +201,7 @@ export default function Home() {
             )}
           </PreviousSearches>
 
-          <Line
+          {/* <Line
             data={data}
             height={250}
             options={{
@@ -205,7 +210,7 @@ export default function Home() {
                 y: { grid: { display: false } },
               },
             }}
-          />
+          /> */}
         </WeatherDetailsWrapper>
       </PageWrapper>
     </>

@@ -9,5 +9,7 @@ export const getCityName = (data: any) => {
     (item: any) => item.types[0] === "administrative_area_level_1"
   );
 
-  return cityNameArray[0].long_name;
+  return cityNameArray.length
+    ? cityNameArray[0].long_name
+    : data[0].formatted_address;
 };

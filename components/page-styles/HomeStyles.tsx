@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 export const PageWrapper = styled.main<{ imgSrc?: string }>`
   background: linear-gradient(0deg, rgba(7, 6, 7, 0.4), rgba(7, 6, 7, 0.4)),
-    url(${(props) => props.imgSrc || "/images/placeholder.jpeg"});
+    url(${(props) => props.imgSrc ?? "/images/placeholder.jpeg"});
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
